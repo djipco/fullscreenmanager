@@ -7,7 +7,8 @@
      *
      * The `FullScreenManager` object offers a unified API for working with the
      * experimental "fullscreen" mode of various modern browsers. It allows the user to
-     * view an element or the whole document in full screen without any visible UI elements.
+     * view an element or the whole document in full screen without any visible UI
+     * elements.
      *
      * The W3C abandoned work on its "Fullscreen API" in 2014 but the WHATWG still
      * maintains a living standard at https://fullscreen.spec.whatwg.org/
