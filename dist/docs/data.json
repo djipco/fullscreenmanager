@@ -1,0 +1,426 @@
+{
+    "project": {
+        "name": "FullScreenManager",
+        "version": "1.0.0-alpha.22",
+        "description": "A unified API to use the fullscreen mode of various modern browsers",
+        "url": "http://cote.cc/projects/fullscreenmanager"
+    },
+    "files": {
+        "../src/FullScreenManager.js": {
+            "name": "../src/FullScreenManager.js",
+            "modules": {},
+            "classes": {
+                "FullScreenManager": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "FullScreenManager": {
+            "name": "FullScreenManager",
+            "shortname": "FullScreenManager",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "../src/FullScreenManager.js",
+            "line": 5,
+            "description": "#### Overview ####\n\nThe `FullScreenManager` object offers a unified API for working with the\nexperimental \"fullscreen\" mode of various modern browsers. It allows the user to\nview an element or the whole document in full screen without any visible UI elements.\n\nThe W3C abandoned work on its \"Fullscreen API\" in 2014 but the WHATWG still\nmaintains a living standard at https://fullscreen.spec.whatwg.org/\n\n#### Compatibility ####\n\nThe `FullScreenManager` library should work in Chrome 15+, Safari 5.1+, Opera 12.1+,\nInternet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefox 9\nby setting `fullscreen-api.enabled` to `true` in `about:config`.\n\n#### Usage ####\n\nFull screen mode can only be triggered from within an event listener tied to a user\ninteraction. In other words, it can only be activated as a result of a mouse or\nkeyboard event.\n\nFor example, this code will listen for a click anywhere on the document and toggle\nfull screen mode for the whole page:\n\n    document.documentElement.onclick = function() {\n        FullScreenManager.toggle();\n    }\n\nYou can also specify which element should be made full screen. To do that, you\nsimply pass the element or its id to the `FullScreenManager.request()` or\n`FullScreenManager.toggle()` method:\n\n    FullScreenManager.request(document.getElementById(\"myElement\"));\n\nYou can also listen for events. For instance, if you wanted to do something after\nfull screen mode was engaged, you could do that:\n\n    FullScreenManager.on('activation', onActivated);\n\n    function onActivated(e) {\n        console.log(\"We are now in full screen mode!\");\n    }\n\n#### Caveat ####\n\nBy design, navigating to another page, changing tabs, reloading the page, or\nswitching to another application will exit full screen mode.",
+            "static": 1,
+            "version": "@@version",
+            "author": "@@author",
+            "todo": [
+                "Create a demo page with various test cases (video",
+                "img",
+                "canvas",
+                "etc.)",
+                "Test on mobile",
+                "Test hosted vs local",
+                "Make sure that everything works as it should when the user uses F11 and ESC to enter and leave full screen mode",
+                "Normalize scrollbar behaviour\n\nOne other thing to note is that these \"full screen\" commands don't have a vertical\nscrollbar",
+                "you need to specify this within the CSS:\n\n    :fullscreen\n    :-ms-fullscreen",
+                ":-webkit-full-screen",
+                ":-moz-full-screen {\n           overflow: auto !important;\n       }"
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 174,
+            "description": "Event triggered once fullscreen mode has been fully activated. You can watch\nthis event by using the `FullScreenManager.addEventListener()` method.",
+            "itemtype": "event",
+            "name": "activation",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "The type of event that occurred.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "target",
+                            "description": "The target element that triggered the event,",
+                            "type": "Element"
+                        },
+                        {
+                            "name": "data",
+                            "description": "The actual custom data that was specified when\nattaching the listener.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "final": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 186,
+            "description": "[read-only] Identifier for the `activation` event.",
+            "itemtype": "property",
+            "name": "ACTIVATION",
+            "type": "{String}",
+            "default": "activation",
+            "static": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 199,
+            "description": "Event triggered once fullscreen mode has been fully deactivated. You can\nwatch this event by using the `FullScreenManager.addEventListener()`\nmethod.",
+            "itemtype": "event",
+            "name": "deactivation",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "The type of event that occurred.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "target",
+                            "description": "The target element that triggered the event,",
+                            "type": "Element"
+                        },
+                        {
+                            "name": "data",
+                            "description": "The actual custom data that was specified when\nattaching the listener.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "final": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 212,
+            "description": "[read-only] Identifier for the `deactivation` event.",
+            "itemtype": "property",
+            "name": "DEACTIVATION",
+            "type": "String",
+            "default": "deactivation",
+            "static": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 225,
+            "description": "Event triggered when an error occurs. You can watch this event by using the\n`FullScreenManager.addEventListener()` method.",
+            "itemtype": "event",
+            "name": "error",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "The type of event that occurred.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "target",
+                            "description": "The target element that triggered the event,",
+                            "type": "Element"
+                        },
+                        {
+                            "name": "error",
+                            "description": "The actual error.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "data",
+                            "description": "The actual custom data that was specified when\nattaching the listener.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "final": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 238,
+            "description": "[read-only] Identifier for the `error` event.",
+            "itemtype": "property",
+            "name": "ERROR",
+            "type": "String",
+            "default": "error",
+            "static": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 251,
+            "description": "[read-only] Indicates whether full screen mode is currently activated or\nnot.",
+            "itemtype": "property",
+            "name": "active",
+            "default": "false",
+            "type": "Boolean",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 267,
+            "description": "[read-only] Indicates whether full screen mode is available in the current\nenvironment or not. Typically, full screen mode is available only for a\npage that has no windowed plugins, and if all `<iframe>` elements which\ncontain the document have their `allowfullscreen` attribute set.",
+            "itemtype": "property",
+            "name": "available",
+            "type": "Boolean",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 283,
+            "description": "The CSS class that is applied to the fullscreen element. If this property\nis changed while in fullscreen mode, the fullscreen element will have its\nclass changed.",
+            "itemtype": "property",
+            "name": "cssClass",
+            "default": "fullscreen",
+            "type": "String",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 306,
+            "description": "Controls whether the `FullScreenManager` will alter the CSS to include a\nclass on the fullscreen element and modify its CSS properties to normalize\nbehaviour between different browsers.",
+            "itemtype": "property",
+            "name": "doNotAlterCss",
+            "default": "false",
+            "type": "Boolean",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 321,
+            "description": "[read-only] The `Element` that is currently being shown full screen. If no\nelement is currently full screen, this property will be null.",
+            "itemtype": "property",
+            "name": "element",
+            "default": "null",
+            "type": "Element",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 337,
+            "description": "[read-only] Indicates whether the keyboard can be used for input while in\nfullscreen. This is useful because not all platforms/versions support this.",
+            "itemtype": "property",
+            "name": "keyboardInputAllowed",
+            "type": "Boolean",
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 353,
+            "description": "[read-only] Version of the `FullScreenManager` class.",
+            "itemtype": "property",
+            "name": "version",
+            "type": "{String}",
+            "static": 1,
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 540,
+            "description": "Tries to activate full screen mode for the specified element. If no element is\nspecified or the specified element is not found, the whole document will be used\ninstead. The function accepts an actual `Element` or an element id.\n\nIf full screen mode cannot be activated, `false` will be returned.",
+            "itemtype": "method",
+            "name": "activate",
+            "static": 1,
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "element",
+                    "description": "The id of the element or the actual `Element` to\nmake fullscreen.",
+                    "type": "Element|String",
+                    "optional": true
+                },
+                {
+                    "name": "options",
+                    "description": "An object holding options to pass to `FullScreenManager`",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "cssClass",
+                            "description": "The CSS Class to add to a fullscreen\nelement",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "fullscreen"
+                        },
+                        {
+                            "name": "scaleMode",
+                            "description": "The scaling mode to use",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "???"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "The FullScreen object (to allow chaining)",
+                "type": "FullScreen|null"
+            },
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 597,
+            "description": "Attaches an event listener function that will be executed when the specified event\noccurs. The third parameter makes it possible to pass arbitrary data to the event\nhandling function.",
+            "itemtype": "method",
+            "name": "addEventListener",
+            "static": 1,
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "A string identifying the event to attach to. Check the\n\"Events\" section of the documentation for a list of supported events.",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "The function that will be executed when the matching\nevent occurs.",
+                    "type": "Function"
+                },
+                {
+                    "name": "data",
+                    "description": "Arbitrary data to pass to the listener function when\ntriggered.",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The `FullScreenManager` object (to allow chaining)",
+                "type": "FullScreenManager"
+            },
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 630,
+            "description": "Deactivates full screen mode and returns the browser and document to their normal\nviewing state.",
+            "itemtype": "method",
+            "name": "deactivate",
+            "chainable": 1,
+            "static": 1,
+            "return": {
+                "description": "The `FullScreenManager` object (to allow chaining)",
+                "type": "FullScreenManager"
+            },
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 650,
+            "description": "Returns `true` if the specified event listener has been previously attached to the\nspecified event. Returns `false `otherwise. If only the `type` is specified, it\nreturns `true`, if there is at least one listener defined for that `type`. If no\nparameters are defined, it returns `true` if at least one listener has been defined\nwithout regards the which type it was attached to.",
+            "itemtype": "method",
+            "name": "hasEventListener",
+            "static": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The event type. Check the \"Events\" section of the\ndocumentation for a list of supported events.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "listener",
+                    "description": "The listener function that was previously attached",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 689,
+            "description": "Removes a previously set event listener. If no parameters are specified, all\nlisteners will be removed. If only the `type` is specified, all listeners attached\nto that type will be removed. Finally, if both parameters are specified only a\nspecific listener attached to a specific event type will be removed.",
+            "itemtype": "method",
+            "name": "removeEventListener",
+            "chainable": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The event type. Check the \"Events\" section of the\ndocumentation for a list of supported events.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "listener",
+                    "description": "The listener function to remove.",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The `FullScreenManager` object (to allow chaining)",
+                "type": "FullScreenManager"
+            },
+            "class": "FullScreenManager"
+        },
+        {
+            "file": "../src/FullScreenManager.js",
+            "line": 731,
+            "description": "Toggles full screen mode on and off for the specified element. If no element is\nspecified, full screen mode is toggled for the whole document.",
+            "itemtype": "method",
+            "name": "toggle",
+            "static": 1,
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "element",
+                    "description": "The id of the element or the actual `Element`\nto make fullscreen.",
+                    "type": "Element | String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The `FullScreenManager` object (to allow chaining)",
+                "type": "FullScreenManager"
+            },
+            "class": "FullScreenManager"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: version",
+            "line": " ../src/FullScreenManager.js:5"
+        }
+    ]
+}

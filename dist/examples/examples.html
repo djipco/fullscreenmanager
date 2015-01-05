@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head lang="en">
+
+        <meta charset="UTF-8">
+        <title></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+        <script src="../../src/FullScreenManager.js"></script>
+
+        <style>
+            section {
+                width: 644px;
+                padding: 10px;
+                margin: 10px auto;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                border-radius: 10px;
+                background-color:#dbdbdb;
+                min-height: 100px;
+            }
+            h1 {
+                font-size: 16px;
+            }
+            .pointer {
+                cursor: pointer;
+                border: dashed red 2px;
+            }
+            .fullscreen {
+                border: none;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <section id="document" class="pointer">
+            <h1><code>&lt;html&gt;</code> (whole document)</h1>
+            <p>Click anywhere in this section to make the whole document
+                fullscreen.</p>
+        </section>
+
+        <section >
+            <h1><code>&lt;p&gt;</code></h1>
+            <p id="paragraph" class="pointer">Click on this paragraph to make it
+                fullscreen. Click on this paragraph to make it fullscreen. Click on this
+                paragraph to make it fullscreen. Click on this paragraph to make it
+                fullscreen. </p>
+        </section>
+
+        <section>
+            <h1><code>&lt;img&gt;</code></h1>
+            <img id="image" width="640" height="360" class="pointer"
+                 src="medias/Touched_by_His_Noodly_Appendage.jpg" style="display: block">
+        </section>
+
+        <section>
+            <h1><code>&lt;video&gt;</code></h1>
+            <video id='video' width="640" height="360" controls style="display: block" class="pointer">
+                <source type="video/mp4" src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></source>
+                <source type="video/ogg" src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv"></source>
+            </video>
+        </section>
+
+
+        <script>
+
+
+            console.log('FullScreen version: ' + FullScreenManager.version);
+            console.log('FullScreen available: ' + FullScreenManager.available);
+
+    //        FullScreenManager.addEventListener('activation', testa);
+        //    fs.addEventListener('activation', testb);
+        //    fs.addEventListener('activation', testc);
+        //
+    //    FullScreenManager.addEventListener('deactivation', testx);
+        //    fs.addEventListener('deactivation', testy);
+        //    fs.addEventListener('deactivation', testz);
+
+
+    //        fs.removeEventListener('activation', testa);
+        //    fs.removeEventListener('deactivation', testx);
+
+        //console.log( fs.hasEventListener('deactivation'));
+        //
+        //
+        //console.log('has a ' + fs.hasEventListener('activation', testa));
+        //console.log('has b ' + fs.hasEventListener('activation', testb));
+        //console.log('has c ' + fs.hasEventListener('activation', testc));
+        //
+        //console.log('has x ' + fs.hasEventListener('deactivation', testx));
+        //console.log('has y ' + fs.hasEventListener('deactivation', testy));
+        //console.log('has z ' + fs.hasEventListener('deactivation', testz));
+
+
+
+            function testa() {
+                console.log('a');
+            }
+            function testb() {
+                console.log('b');
+            }
+            function testc() {
+                console.log('c');
+            }
+
+            function testx() {
+                console.log('x');
+            }
+
+            function testy() {
+                console.log('y');
+            }
+
+            function testz() {
+                console.log('z');
+            }
+
+            document.getElementById('document').onclick = function() {
+                FullScreenManager.toggle();
+            }
+            document.getElementById('paragraph').onclick = function() {
+                FullScreenManager.toggle('paragraph');
+            }
+            document.getElementById('image').onclick = function() {
+                FullScreenManager.toggle('image');
+            }
+            document.getElementById('video').onclick = function() {
+                FullScreenManager.toggle('video');
+            }
+
+
+        </script>
+
+    </body>
+
+</html>
