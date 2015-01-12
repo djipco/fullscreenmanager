@@ -46,3 +46,7 @@ full screen mode was engaged, you could do that:
 
 By design, navigating to another page, changing tabs, reloading the page, or switching to
 another application will exit full screen mode.
+
+#### Home page & Documentation ####
+
+This library is also available on the [author's site](http://cote.cc/projects/fullscreenmanager/ "FullScreenManager"). The full API documentation can be [viewed online](http://cote.cc/w/wp-content/uploads/projects/fullscreenmanager/doc/classes/FullScreenManager.html "Documentation")
