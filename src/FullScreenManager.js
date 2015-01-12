@@ -63,6 +63,45 @@
      * @todo Test hosted vs local
      * @todo Make sure that everything works as it should when the user uses F11 and ESC to enter and leave full screen mode
      * @todo Normalize scrollbar behaviour
+     * @todo For unsupported browsers, fall back to a fullscreen window with minimal chrome
+     * @todo In Firefox and IE (on Windows only), the browser changes the background-color
+     * of an element to black if this element is not the root and does not already have an
+     * assigned background-color. We should assign
+     *
+     * the following rule changes the background color of the element if it's not the root element:
+     *
+     * :-moz-full-screen:not(:root)
+     *
+     *
+     *
+
+  *|*:not(:root):-moz-full-screen {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      z-index: 2147483647 !important;
+      background: black;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      box-sizing: border-box !important;
+  }
+
+     // If there is a full-screen element that is not the root then
+     //we should hide the viewport scrollbar. We exclude the chrome
+     //document to prevent reframing of contained plugins.
+    :not(xul|*):root:-moz-full-screen-ancestor {
+        overflow: hidden !important;
+    }
+
+
+
      *
      * One other thing to note is that these "full screen" commands don't have a vertical
      * scrollbar, you need to specify this within the CSS:
@@ -75,6 +114,49 @@
         }
 
      **/
+
+
+    /**
+     * Event triggered once fullscreen mode has been fully activated. You can watch
+     * this event by using the `FullScreenManager.addEventListener()` method.
+     *
+     * @event activation
+     * @param event {Object}
+     * @param event.type {String} The type of event that occurred.
+     * @param event.target {Element} The target element that triggered the event,
+     * @param event.data {Object} The actual custom data that was specified when
+     * attaching the listener.
+     * @final
+     */
+
+    /**
+     * Event triggered once fullscreen mode has been fully deactivated. You can
+     * watch this event by using the `FullScreenManager.addEventListener()`
+     * method.
+     *
+     * @event deactivation
+     * @param event {Object}
+     * @param event.type {String} The type of event that occurred.
+     * @param event.target {Element} The target element that triggered the event,
+     * @param event.data {Object} The actual custom data that was specified when
+     * attaching the listener.
+     * @final
+     */
+
+    /**
+     * Event triggered when an error occurs. You can watch this event by using the
+     * `FullScreenManager.addEventListener()` method.
+     *
+     * @event error
+     * @param event {Object}
+     * @param event.type {String} The type of event that occurred.
+     * @param event.target {Element} The target element that triggered the event,
+     * @param event.error {Object} The actual error.
+     * @param event.data {Object} The actual custom data that was specified when
+     * attaching the listener.
+     * @final
+     */
+
     function FullScreenManager() {
 
         Object.defineProperties(this, {
@@ -170,83 +252,6 @@
                         'webkitfullscreenerror'
                     ]
                 }
-            },
-
-            /**
-             * Event triggered once fullscreen mode has been fully activated. You can watch
-             * this event by using the `FullScreenManager.addEventListener()` method.
-             *
-             * @event activation
-             * @param event {Object}
-             * @param event.type {String} The type of event that occurred.
-             * @param event.target {Element} The target element that triggered the event,
-             * @param event.data {Object} The actual custom data that was specified when
-             * attaching the listener.
-             * @final
-             */
-            /**
-             * [read-only] Identifier for the `activation` event.
-             *
-             * @property ACTIVATION
-             * @type {String}
-             * @default activation
-             * @static
-             */
-            ACTIVATION: {
-                enumerable: false,
-                value: 'activation'
-            },
-
-            /**
-             * Event triggered once fullscreen mode has been fully deactivated. You can
-             * watch this event by using the `FullScreenManager.addEventListener()`
-             * method.
-             *
-             * @event deactivation
-             * @param event {Object}
-             * @param event.type {String} The type of event that occurred.
-             * @param event.target {Element} The target element that triggered the event,
-             * @param event.data {Object} The actual custom data that was specified when
-             * attaching the listener.
-             * @final
-             */
-            /**
-             * [read-only] Identifier for the `deactivation` event.
-             *
-             * @property DEACTIVATION
-             * @type String
-             * @default deactivation
-             * @static
-             */
-            DEACTIVATION: {
-                enumerable: false,
-                value: 'deactivation'
-            },
-
-            /**
-             * Event triggered when an error occurs. You can watch this event by using the
-             * `FullScreenManager.addEventListener()` method.
-             *
-             * @event error
-             * @param event {Object}
-             * @param event.type {String} The type of event that occurred.
-             * @param event.target {Element} The target element that triggered the event,
-             * @param event.error {Object} The actual error.
-             * @param event.data {Object} The actual custom data that was specified when
-             * attaching the listener.
-             * @final
-             */
-            /**
-             * [read-only] Identifier for the `error` event.
-             *
-             * @property ERROR
-             * @type String
-             * @default error
-             * @static
-             */
-            ERROR: {
-                enumerable: false,
-                value: 'error'
             },
 
             /**
@@ -385,6 +390,9 @@
 
                 if (!that.doNotAlterCss) {
 
+
+                    // WE PROBABLY SHOULD DO THAT WITH A STYLE SHEET INJECTION: http://davidwalsh.name/add-rules-stylesheets
+
                     // Save original state for later
                     that._savedState.height = that._element.style.height;
                     that._savedState.width = that._element.style.width;
@@ -392,6 +400,7 @@
                     that._savedState['-webkit-margin-before'] = that._element.style['-webkit-margin-before'];
                     that._savedState['-webkit-margin-after'] = that._element.style['-webkit-margin-after'];
 
+                    // Make sure elements stretches to fit
                     that._element.style.height = "100%";
                     that._element.style.width = "100%";
                     that._element.style.display = "block";
@@ -399,6 +408,12 @@
                     // Remove annoying margin added by Webkit
                     that._element.style['-webkit-margin-before'] = 0;
                     that._element.style['-webkit-margin-after'] = 0;
+
+                    // Normalize the background color of elements that do not have a
+                    // declared background-color (for IE and Firefox on Windows)
+                    //if (that._element.style['background-color'])
+                    //console.log('coucou' + that._element.style['background-color']);
+                    console.log('coucou' + getComputedStyle(that._element)['background-color']);
 
                 }
 
@@ -749,7 +764,9 @@
     /*
      There are two popular, well-defined approaches to such modules. One is called
      CommonJS Modules and revolves around a require function that fetches a module by name
-     and returns its interface. The other is called AMD and uses a define function that
+     and returns its interface.
+
+     The other is called AMD and uses a define function that
      takes an array of module names and a function and, after loading the modules, runs
      the function with their interfaces as arguments.
      */
@@ -762,13 +779,18 @@
         define("FullScreenManager", [], function () {
             return new FullScreenManager();
         });
-    //} else if (typeof module !== 'undefined' && module.exports) {
-    //    module.exports = FullScreenManager;
+    } else if (typeof module !== 'undefined' && module.exports) {
+        module.exports = FullScreenManager;
     } else {
         if (!scope.FullScreenManager) scope.FullScreenManager = new FullScreenManager();
     }
 
 
+
+    /*
+        RequireJS is optimized for in-browser use:
+
+     */
 
     //// Enable is_email as jQuery plugin.
     //if (typeof(jQuery) !== 'undefined') {
