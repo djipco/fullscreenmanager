@@ -5,6 +5,9 @@ The `FullScreenManager` object offers a unified API for working with the experim
 "fullscreen" mode of various modern browsers. It allows the user to view an element or the
 whole document in full screen without any visible UI elements.
 
+> This class is still in alpha mode. It has not been sufficiently tested to be deemed
+production ready. Use at your own risk.
+
 The W3C abandoned work on its "Fullscreen API" in 2014 but the WHATWG still maintains a
 living standard at https://fullscreen.spec.whatwg.org/
 
@@ -15,6 +18,10 @@ Internet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefo
 by setting `fullscreen-api.enabled` to `true` in `about:config`.
 
 #### Usage ####
+
+By default, the `FullScreenManager` object is created under the `window` property.
+However, if CommonJS or RequireJS has been detected, it will be used instead (as of
+yet untested).
 
 Full screen mode can only be triggered from within an event listener tied to a user
 interaction. In other words, it can only be activated as a result of a mouse or
