@@ -52,13 +52,17 @@
      * By design, navigating to another page, changing tabs, reloading the page, or
      * switching to another application will exit full screen mode.
      *
+     * To enter fullscreen mode from *within* an `iframe`, you need to add some attributes
+     * on the `iframe tag`.
+     *
+     *     <iframe src="x.html" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe>
+     *
      * @class FullScreenManager
      * @static
      *
      * @version @@version
      * @author @@author
      *
-     * @todo Create a demo page with various test cases (video, img, canvas, etc.)
      * @todo Test on mobile (Chrome et Firefox devraient être supportés)
      * @todo Test hosted vs local
      * @todo Make sure that everything works as it should when the user uses F11 and ESC to enter and leave full screen mode
@@ -68,6 +72,8 @@
      * of an element to black if this element is not the root and does not already have an
      * assigned background-color. We should assign
      * @todo listen for key combos to trigger fullscreen ?
+     * @todo make it a singleton
+     * @todo make it jquery-compatible
      *
      *
      * the following rule changes the background color of the element if it's not the root element:
@@ -128,10 +134,6 @@
      request fails, Firefox will log an error message to the Web Console explaining why
      the request failed. In Chrome and newer versions of Opera however, no such warning
      is generated.
-
-     NOTE: Fullscreen requests need to be called from within an event handler or otherwise
-     they will be denied.
-
 
      **/
 
@@ -783,49 +785,16 @@
         return (this.active ? this.deactivate() : this.activate(element));
     };
 
-
-
-    /*
-     There are two popular, well-defined approaches to such modules. One is called
-     CommonJS Modules and revolves around a require function that fetches a module by name
-     and returns its interface.
-
-     The other is called AMD and uses a define function that
-     takes an array of module names and a function and, after loading the modules, runs
-     the function with their interfaces as arguments.
-     */
-
-
-    // Check if RequireJS/AMD is available. If it is, use it to define our module instead
-    // of polluting the global space. If it's not available, check if CommonJS/Node.js is
-    // available. If it is, use it. If not, use the old-school method.
+    // Check if RequireJS/AMD is used. If it is, use it to define our module instead of
+    // polluting the global space.
     if ( typeof define === "function" && define.amd ) {
-        define("FullScreenManager", [], function () {
+        define([], function () {
             return new FullScreenManager();
         });
-    } else if (typeof module !== 'undefined' && module.exports) {
-        module.exports = FullScreenManager;
+    //} else if (typeof module !== 'undefined' && module.exports) {
+    //    module.exports = FullScreenManager; // UNTESTED CommonJS/Node.js
     } else {
         if (!scope.FullScreenManager) scope.FullScreenManager = new FullScreenManager();
     }
 
-
-
-    /*
-        RequireJS is optimized for in-browser use:
-
-     */
-
-    //// Enable is_email as jQuery plugin.
-    //if (typeof(jQuery) !== 'undefined') {
-    //    // If you want to use it in a style "$.is_undefined(x);".
-    //    jQuery.is_undefined = is_undefined; // probably what we want JPC !!!
-    //
-    //    // If you want to use it in a style "$('selector').is_undefined(x);".
-    //    jQuery.fn.is_undefined = is_undefined;
-    //    // You would get "selector" inside is_undefined using "this" object.
-    //}
-
-
-
-}(window));
+}(this));
