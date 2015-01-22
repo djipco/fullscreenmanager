@@ -18,7 +18,7 @@ by setting `fullscreen-api.enabled` to `true` in `about:config`.
 
 By default, an instance of the object will be made available under
 `window.FullScreenManager`. However, if you are using RequireJS, nothing will be declared
-under the `window` object. In this case, you should simply require the library as usual:
+under the `window` object. Instead, you should simply require the library as usual:
 
     define(function (require) {
         var FullScreenManager = require('FullScreenManager');
