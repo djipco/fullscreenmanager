@@ -59,7 +59,7 @@
      * @author @@author
      *
      * @todo Create a demo page with various test cases (video, img, canvas, etc.)
-     * @todo Test on mobile
+     * @todo Test on mobile (Chrome et Firefox devraient être supportés)
      * @todo Test hosted vs local
      * @todo Make sure that everything works as it should when the user uses F11 and ESC to enter and leave full screen mode
      * @todo Normalize scrollbar behaviour
@@ -67,6 +67,8 @@
      * @todo In Firefox and IE (on Windows only), the browser changes the background-color
      * of an element to black if this element is not the root and does not already have an
      * assigned background-color. We should assign
+     * @todo listen for key combos to trigger fullscreen ?
+     *
      *
      * the following rule changes the background color of the element if it's not the root element:
      *
@@ -112,6 +114,24 @@
      :-moz-full-screen {
             overflow: auto !important;
         }
+
+
+
+
+     It's not guaranteed that you'll be able to switch into fullscreen mode. For example,
+     <iframe> elements have the mozallowfullscreen attribute (webkitallowfullscreen, etc)
+     in order to opt-in to allowing their content to be displayed in fullscreen mode. In
+     addition, certain kinds of content, such as windowed plug-ins, cannot be presented in
+     fullscreen mode. Attempting to put an element which can't be displayed in fullscreen
+     mode (or the parent or descendant of such an element) won't work. Instead, the element
+     which requested fullscreen will receive a mozfullscreenerror event. When a fullscreen
+     request fails, Firefox will log an error message to the Web Console explaining why
+     the request failed. In Chrome and newer versions of Opera however, no such warning
+     is generated.
+
+     NOTE: Fullscreen requests need to be called from within an event handler or otherwise
+     they will be denied.
+
 
      **/
 
@@ -442,14 +462,18 @@
 
             var state = that.active ? that.ACTIVATION : that.DEACTIVATION;
 
-            // Execute user-defined handlers
-            for (var i = 0; i < that._handlers[state].length; i++) {
-                var h = that._handlers[state][i];
-                h.listener({
-                    "type": state,
-                    'target': that,
-                    "data": h.data
-                });
+            // Execute user-defined handlers (if any)
+            if (that._handlers[state] && that._handlers[state].length > 0) {
+
+                for (var i = 0; i < that._handlers[state].length; i++) {
+                    var h = that._handlers[state][i];
+                    h.listener({
+                        "type": state,
+                        'target': that,
+                        "data": h.data
+                    });
+                }
+
             }
 
         }
