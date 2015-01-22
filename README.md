@@ -56,7 +56,7 @@ By design, navigating to another page, changing tabs, reloading the page, or swi
 another application will exit full screen mode.
 
 To enter fullscreen mode from within an `iframe`, you need to add some attributes on the
-`iframe tag`.
+`iframe` tag.
 
     <iframe src="x.html" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe>
 
