@@ -28,7 +28,7 @@
             "extension_for": [],
             "file": "../src/FullScreenManager.js",
             "line": 5,
-            "description": "#### Overview ####\n\nThe `FullScreenManager` object offers a unified API for working with the\nexperimental \"fullscreen\" mode of various modern browsers. It allows the user to\nview an element or the whole document in full screen without any visible UI\nelements.\n\nThe W3C abandoned work on its \"Fullscreen API\" in 2014 but the WHATWG still\nmaintains a living standard at https://fullscreen.spec.whatwg.org/\n\n#### Compatibility ####\n\nThe `FullScreenManager` library should work in Chrome 15+, Safari 5.1+, Opera 12.1+,\nInternet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefox 9\nby setting `fullscreen-api.enabled` to `true` in `about:config`.\n\n#### Usage ####\n\nFull screen mode can only be triggered from within an event listener tied to a user\ninteraction. In other words, it can only be activated as a result of a mouse or\nkeyboard event.\n\nFor example, this code will listen for a click anywhere on the document and toggle\nfull screen mode for the whole page:\n\n    document.documentElement.onclick = function() {\n        FullScreenManager.toggle();\n    }\n\nYou can also specify which element should be made full screen. To do that, you\nsimply pass the element or its id to the `FullScreenManager.request()` or\n`FullScreenManager.toggle()` method:\n\n    FullScreenManager.request(document.getElementById(\"myElement\"));\n\nYou can also listen for events. For instance, if you wanted to do something after\nfull screen mode was engaged, you could do that:\n\n    FullScreenManager.on('activation', onActivated);\n\n    function onActivated(e) {\n        console.log(\"We are now in full screen mode!\");\n    }\n\n#### Caveat ####\n\nBy design, navigating to another page, changing tabs, reloading the page, or\nswitching to another application will exit full screen mode.\n\nTo enter fullscreen mode from *within* an `iframe`, you need to add some attributes\non the `iframe tag`.\n\n    <iframe src=\"x.html\" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe>",
+            "description": "#### Overview ####\n\nThe `FullScreenManager` object offers a unified API for working with the\nexperimental \"fullscreen\" mode of various modern browsers. It allows the user to\nview an element or the whole document in full screen without any visible UI\nelements.\n\n#### Compatibility ####\n\nThe `FullScreenManager` library should work in Chrome 15+, Safari 5.1+, Opera 12.1+,\nInternet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefox 9\nby setting `fullscreen-api.enabled` to `true` in `about:config`.\n\n#### Linking and loading ####\n\nLoading the library is very simple. You just need to link to it in your html file\nlike so:\n\n     <script src=\"FullScreenManager-1.0.0-alpha.26.min.js\"></script>\n\nDoing that will create the `FullScreenManager` variable in the global scope\n(under `window`). Since it's a singleton, there is no need to instantiate anything.\n\nNote: if you are using *RequireJS/AMD*, nothing will be declared under the `window`\nobject. Instead, you should simply require the library as usual:\n\n     define(function (require) {\n         var FullScreenManager = require('FullScreenManager');\n     });\n\n#### Usage ####\n\nFor security reasons, full screen mode can only be triggered from within an event\nlistener tied to a user interaction. In other words, it can only be activated as a\nresult of the user triggering a mouse or keyboard event. It is *not possible*\nto enable full screen mode automatically (during `onload` for example).\n\nHere is an example of code that will listen for a click anywhere on the document\nand toggle full screen mode for the whole page:\n\n    document.documentElement.onclick = function() {\n        FullScreenManager.toggle();\n    }\n\nYou can also specify which element should be made full screen. To do that, you\nsimply pass the element or its id to the `FullScreenManager.request()` or\n`FullScreenManager.toggle()` method:\n\n    FullScreenManager.request(\"myElement\");\n\nYou can also listen for events. For instance, if you wanted to do something after\nfull screen mode was engaged, you could do that:\n\n    FullScreenManager.on('activation', onActivated);\n\n    function onActivated(e) {\n        console.log(\"We are now in full screen mode!\");\n    }\n\nOther events such as \"deactivation\" and \"error\" also exist. Check the \"events\"\nsection for more details.\n\n#### Limitations ####\n\nBy design, navigating to another page, changing tabs, reloading the page, or\nswitching to another application will exit full screen mode. This is a browser\nlimitation.\n\nTo enter fullscreen mode from *within* an `iframe`, you need to add some attributes\non the `iframe` tag.\n\n    <iframe src=\"x.html\" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe>",
             "static": 1,
             "version": "@@version",
             "author": "@@author",
@@ -42,7 +42,9 @@
                 "In Firefox and IE (on Windows only)",
                 "the browser changes the background-color\nof an element to black if this element is not the root and does not already have an\nassigned background-color. We should assign",
                 "listen for key combos to trigger fullscreen ?",
-                "make it jquery-compatible\n\n\nthe following rule changes the background color of the element if it's not the root element:\n\n:-moz-full-screen:not(:root)\n\n\n\n\n|*:not(:root):-moz-full-screen {\n     position: fixed !important;\n     top: 0 !important;\n     left: 0 !important;\n     right: 0 !important;\n     bottom: 0 !important;\n     z-index: 2147483647 !important;\n     background: black;\n     width: 100% !important;\n     height: 100% !important;\n     margin: 0 !important;\n     min-width: 0 !important;\n     max-width: none !important;\n     min-height: 0 !important;\n     max-height: none !important;\n     box-sizing: border-box !important;\n }\n\n    // If there is a full-screen element that is not the root then\n    //we should hide the viewport scrollbar. We exclude the chrome\n    //document to prevent reframing of contained plugins.\n   :not(xul|*):root:-moz-full-screen-ancestor {\n       overflow: hidden !important;\n   }\n\n\n\n\nOne other thing to note is that these \"full screen\" commands don't have a vertical\nscrollbar",
+                "make it jquery-compatible",
+                "Add option to maintain aspect ratio and to center the fullscreen stuff ?",
+                "allow setting the overflow property ?\n\n\nthe following rule changes the background color of the element if it's not the root element:\n\n:-moz-full-screen:not(:root)\n\n\n\n\n|*:not(:root):-moz-full-screen {\n     position: fixed !important;\n     top: 0 !important;\n     left: 0 !important;\n     right: 0 !important;\n     bottom: 0 !important;\n     z-index: 2147483647 !important;\n     background: black;\n     width: 100% !important;\n     height: 100% !important;\n     margin: 0 !important;\n     min-width: 0 !important;\n     max-width: none !important;\n     min-height: 0 !important;\n     max-height: none !important;\n     box-sizing: border-box !important;\n }\n\n    // If there is a full-screen element that is not the root then\n    //we should hide the viewport scrollbar. We exclude the chrome\n    //document to prevent reframing of contained plugins.\n   :not(xul|*):root:-moz-full-screen-ancestor {\n       overflow: hidden !important;\n   }\n\n\n\n\nOne other thing to note is that these \"full screen\" commands don't have a vertical\nscrollbar",
                 "you need to specify this within the CSS:\n\n    :fullscreen\n    :-ms-fullscreen",
                 ":-webkit-full-screen",
                 ":-moz-full-screen {\n           overflow: auto !important;\n       }\n\n\n\n\n    It's not guaranteed that you'll be able to switch into fullscreen mode. For example",
@@ -60,7 +62,7 @@
     "classitems": [
         {
             "file": "../src/FullScreenManager.js",
-            "line": 157,
+            "line": 177,
             "description": "Event triggered once fullscreen mode has been fully activated. You can watch\nthis event by using the `FullScreenManager.addEventListener()` method.",
             "itemtype": "event",
             "name": "activation",
@@ -93,7 +95,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 170,
+            "line": 190,
             "description": "Event triggered once fullscreen mode has been fully deactivated. You can\nwatch this event by using the `FullScreenManager.addEventListener()`\nmethod.",
             "itemtype": "event",
             "name": "deactivation",
@@ -126,7 +128,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 184,
+            "line": 204,
             "description": "Event triggered when an error occurs. You can watch this event by using the\n`FullScreenManager.addEventListener()` method.",
             "itemtype": "event",
             "name": "error",
@@ -164,7 +166,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 295,
+            "line": 315,
             "description": "[read-only] Indicates whether full screen mode is currently activated or\nnot.",
             "itemtype": "property",
             "name": "active",
@@ -174,7 +176,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 311,
+            "line": 331,
             "description": "[read-only] Indicates whether full screen mode is available in the current\nenvironment or not. Typically, full screen mode is available only for a\npage that has no windowed plugins, and if all `<iframe>` elements which\ncontain the document have their `allowfullscreen` attribute set.",
             "itemtype": "property",
             "name": "available",
@@ -183,7 +185,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 327,
+            "line": 347,
             "description": "The CSS class that is applied to the fullscreen element. If this property\nis changed while in fullscreen mode, the fullscreen element will have its\nclass changed.",
             "itemtype": "property",
             "name": "cssClass",
@@ -193,7 +195,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 350,
+            "line": 370,
             "description": "Controls whether the `FullScreenManager` will alter the CSS to include a\nclass on the fullscreen element and modify its CSS properties to normalize\nbehaviour between different browsers.",
             "itemtype": "property",
             "name": "doNotAlterCss",
@@ -203,7 +205,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 365,
+            "line": 385,
             "description": "[read-only] The `Element` that is currently being shown full screen. If no\nelement is currently full screen, this property will be null.",
             "itemtype": "property",
             "name": "element",
@@ -213,7 +215,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 381,
+            "line": 401,
             "description": "[read-only] Indicates whether the keyboard can be used for input while in\nfullscreen. This is useful because not all platforms/versions support this.",
             "itemtype": "property",
             "name": "keyboardInputAllowed",
@@ -222,7 +224,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 397,
+            "line": 417,
             "description": "[read-only] Version of the `FullScreenManager` class.",
             "itemtype": "property",
             "name": "version",
@@ -232,7 +234,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 598,
+            "line": 618,
             "description": "Tries to activate full screen mode for the specified element. If no element is\nspecified or the specified element is not found, the whole document will be used\ninstead. The function accepts an actual `Element` or an element id.\n\nIf full screen mode cannot be activated, `false` will be returned.",
             "itemtype": "method",
             "name": "activate",
@@ -241,7 +243,7 @@
             "params": [
                 {
                     "name": "element",
-                    "description": "The id of the element or the actual `Element` to\nmake fullscreen.",
+                    "description": "The id of the element or the actual `Element`\nobject to make fullscreen.",
                     "type": "Element|String",
                     "optional": true
                 },
@@ -276,7 +278,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 655,
+            "line": 675,
             "description": "Attaches an event listener function that will be executed when the specified event\noccurs. The third parameter makes it possible to pass arbitrary data to the event\nhandling function.",
             "itemtype": "method",
             "name": "addEventListener",
@@ -308,7 +310,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 688,
+            "line": 708,
             "description": "Deactivates full screen mode and returns the browser and document to their normal\nviewing state.",
             "itemtype": "method",
             "name": "deactivate",
@@ -322,7 +324,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 708,
+            "line": 728,
             "description": "Returns `true` if the specified event listener has been previously attached to the\nspecified event. Returns `false `otherwise. If only the `type` is specified, it\nreturns `true`, if there is at least one listener defined for that `type`. If no\nparameters are defined, it returns `true` if at least one listener has been defined\nwithout regards the which type it was attached to.",
             "itemtype": "method",
             "name": "hasEventListener",
@@ -345,7 +347,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 747,
+            "line": 767,
             "description": "Removes a previously set event listener. If no parameters are specified, all\nlisteners will be removed. If only the `type` is specified, all listeners attached\nto that type will be removed. Finally, if both parameters are specified only a\nspecific listener attached to a specific event type will be removed.",
             "itemtype": "method",
             "name": "removeEventListener",
@@ -373,7 +375,7 @@
         },
         {
             "file": "../src/FullScreenManager.js",
-            "line": 789,
+            "line": 809,
             "description": "Toggles full screen mode on and off for the specified element. If no element is\nspecified, full screen mode is toggled for the whole document.",
             "itemtype": "method",
             "name": "toggle",

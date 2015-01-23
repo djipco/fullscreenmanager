@@ -93,25 +93,35 @@
 experimental &quot;fullscreen&quot; mode of various modern browsers. It allows the user to
 view an element or the whole document in full screen without any visible UI
 elements.</p>
-<p>The W3C abandoned work on its &quot;Fullscreen API&quot; in 2014 but the WHATWG still
-maintains a living standard at <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a></p>
 <h4 id="compatibility">Compatibility</h4>
 <p>The <code>FullScreenManager</code> library should work in Chrome 15+, Safari 5.1+, Opera 12.1+,
 Internet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefox 9
 by setting <code>fullscreen-api.enabled</code> to <code>true</code> in <code>about:config</code>.</p>
-<h4 id="usage">Usage</h4>
-<p>Full screen mode can only be triggered from within an event listener tied to a user
-interaction. In other words, it can only be activated as a result of a mouse or
-keyboard event.</p>
-<p>For example, this code will listen for a click anywhere on the document and toggle
-full screen mode for the whole page:</p>
+<h4 id="linking-and-loading">Linking and loading</h4>
+<p>Loading the library is very simple. You just need to link to it in your html file
+like so:</p>
+<pre class="code prettyprint"><code> &lt;script src=&quot;FullScreenManager-1.0.0-alpha.26.min.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>Doing that will create the <code>FullScreenManager</code> variable in the global scope
+(under <code>window</code>). Since it&#39;s a singleton, there is no need to instantiate anything.</p>
+<p>Note: if you are using <em>RequireJS/AMD</em>, nothing will be declared under the <code>window</code>
+object. Instead, you should simply require the library as usual:</p>
+<pre class="code prettyprint"><code> define(function (require) {
+     var FullScreenManager = require(&#39;FullScreenManager&#39;);
+ });
+</code></pre><h4 id="usage">Usage</h4>
+<p>For security reasons, full screen mode can only be triggered from within an event
+listener tied to a user interaction. In other words, it can only be activated as a
+result of the user triggering a mouse or keyboard event. It is <em>not possible</em>
+to enable full screen mode automatically (during <code>onload</code> for example).</p>
+<p>Here is an example of code that will listen for a click anywhere on the document
+and toggle full screen mode for the whole page:</p>
 <pre class="code prettyprint"><code>document.documentElement.onclick = function() {
     FullScreenManager.toggle();
 }
 </code></pre><p>You can also specify which element should be made full screen. To do that, you
 simply pass the element or its id to the <code>FullScreenManager.request()</code> or
 <code>FullScreenManager.toggle()</code> method:</p>
-<pre class="code prettyprint"><code>FullScreenManager.request(document.getElementById(&quot;myElement&quot;));
+<pre class="code prettyprint"><code>FullScreenManager.request(&quot;myElement&quot;);
 </code></pre><p>You can also listen for events. For instance, if you wanted to do something after
 full screen mode was engaged, you could do that:</p>
 <pre class="code prettyprint"><code>FullScreenManager.on(&#39;activation&#39;, onActivated);
@@ -119,11 +129,14 @@ full screen mode was engaged, you could do that:</p>
 function onActivated(e) {
     console.log(&quot;We are now in full screen mode!&quot;);
 }
-</code></pre><h4 id="caveat">Caveat</h4>
+</code></pre><p>Other events such as &quot;deactivation&quot; and &quot;error&quot; also exist. Check the &quot;events&quot;
+section for more details.</p>
+<h4 id="limitations">Limitations</h4>
 <p>By design, navigating to another page, changing tabs, reloading the page, or
-switching to another application will exit full screen mode.</p>
+switching to another application will exit full screen mode. This is a browser
+limitation.</p>
 <p>To enter fullscreen mode from <em>within</em> an <code>iframe</code>, you need to add some attributes
-on the <code>iframe tag</code>.</p>
+on the <code>iframe</code> tag.</p>
 <pre class="code prettyprint"><code>&lt;iframe src=&quot;x.html&quot; webkitAllowFullScreen mozAllowFullScreen allowFullScreen&gt;&lt;/iframe&gt;
 </code></pre>
 </div>
@@ -268,7 +281,7 @@ on the <code>iframe tag</code>.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l598"><code>..&#x2F;src&#x2F;FullScreenManager.js:598</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l618"><code>..&#x2F;src&#x2F;FullScreenManager.js:618</code></a>
         </p>
 
 
@@ -294,8 +307,8 @@ instead. The function accepts an actual <code>Element</code> or an element id.</
 
 
                     <div class="param-description">
-                        <p>The id of the element or the actual <code>Element</code> to
-make fullscreen.</p>
+                        <p>The id of the element or the actual <code>Element</code>
+object to make fullscreen.</p>
 
                     </div>
 
@@ -384,7 +397,7 @@ element</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l655"><code>..&#x2F;src&#x2F;FullScreenManager.js:655</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l675"><code>..&#x2F;src&#x2F;FullScreenManager.js:675</code></a>
         </p>
 
 
@@ -474,7 +487,7 @@ triggered.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l688"><code>..&#x2F;src&#x2F;FullScreenManager.js:688</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l708"><code>..&#x2F;src&#x2F;FullScreenManager.js:708</code></a>
         </p>
 
 
@@ -525,7 +538,7 @@ viewing state.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l708"><code>..&#x2F;src&#x2F;FullScreenManager.js:708</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l728"><code>..&#x2F;src&#x2F;FullScreenManager.js:728</code></a>
         </p>
 
 
@@ -605,7 +618,7 @@ documentation for a list of supported events.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l747"><code>..&#x2F;src&#x2F;FullScreenManager.js:747</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l767"><code>..&#x2F;src&#x2F;FullScreenManager.js:767</code></a>
         </p>
 
 
@@ -690,7 +703,7 @@ documentation for a list of supported events.</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._src_FullScreenManager.js.html#l789"><code>..&#x2F;src&#x2F;FullScreenManager.js:789</code></a>
+        <a href="../files/.._src_FullScreenManager.js.html#l809"><code>..&#x2F;src&#x2F;FullScreenManager.js:809</code></a>
         </p>
 
 
@@ -751,7 +764,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l295"><code>..&#x2F;src&#x2F;FullScreenManager.js:295</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l315"><code>..&#x2F;src&#x2F;FullScreenManager.js:315</code></a>
                             </p>
                     
                     
@@ -778,7 +791,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l311"><code>..&#x2F;src&#x2F;FullScreenManager.js:311</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l331"><code>..&#x2F;src&#x2F;FullScreenManager.js:331</code></a>
                             </p>
                     
                     
@@ -806,7 +819,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l327"><code>..&#x2F;src&#x2F;FullScreenManager.js:327</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l347"><code>..&#x2F;src&#x2F;FullScreenManager.js:347</code></a>
                             </p>
                     
                     
@@ -834,7 +847,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l350"><code>..&#x2F;src&#x2F;FullScreenManager.js:350</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l370"><code>..&#x2F;src&#x2F;FullScreenManager.js:370</code></a>
                             </p>
                     
                     
@@ -862,7 +875,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l365"><code>..&#x2F;src&#x2F;FullScreenManager.js:365</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l385"><code>..&#x2F;src&#x2F;FullScreenManager.js:385</code></a>
                             </p>
                     
                     
@@ -889,7 +902,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l381"><code>..&#x2F;src&#x2F;FullScreenManager.js:381</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l401"><code>..&#x2F;src&#x2F;FullScreenManager.js:401</code></a>
                             </p>
                     
                     
@@ -916,7 +929,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l397"><code>..&#x2F;src&#x2F;FullScreenManager.js:397</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l417"><code>..&#x2F;src&#x2F;FullScreenManager.js:417</code></a>
                             </p>
                     
                     
@@ -948,7 +961,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l157"><code>..&#x2F;src&#x2F;FullScreenManager.js:157</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l177"><code>..&#x2F;src&#x2F;FullScreenManager.js:177</code></a>
                             </p>
                     
                     
@@ -1024,7 +1037,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l170"><code>..&#x2F;src&#x2F;FullScreenManager.js:170</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l190"><code>..&#x2F;src&#x2F;FullScreenManager.js:190</code></a>
                             </p>
                     
                     
@@ -1101,7 +1114,7 @@ to make fullscreen.</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/.._src_FullScreenManager.js.html#l184"><code>..&#x2F;src&#x2F;FullScreenManager.js:184</code></a>
+                            <a href="../files/.._src_FullScreenManager.js.html#l204"><code>..&#x2F;src&#x2F;FullScreenManager.js:204</code></a>
                             </p>
                     
                     

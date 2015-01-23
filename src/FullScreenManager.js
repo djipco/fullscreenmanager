@@ -10,32 +10,38 @@
      * view an element or the whole document in full screen without any visible UI
      * elements.
      *
-     * The W3C abandoned work on its "Fullscreen API" in 2014 but the WHATWG still
-     * maintains a living standard at https://fullscreen.spec.whatwg.org/
-     *
      * #### Compatibility ####
      *
      * The `FullScreenManager` library should work in Chrome 15+, Safari 5.1+, Opera 12.1+,
      * Internet Explorer 11+ and Firefox 10+. It can also be manually enabled in Firefox 9
      * by setting `fullscreen-api.enabled` to `true` in `about:config`.
      *
-     * #### Usage ####
+     * #### Linking and loading ####
      *
-     * By default, an instance of the object will be made available under
-     * `window.FullScreenManager`. However, if you are using RequireJS, nothing will be
-     * declared under the `window` object. Instead, you should simply require the library
-     * as usual:
+     * Loading the library is very simple. You just need to link to it in your html file
+     * like so:
+     *
+     *      <script src="FullScreenManager-1.0.0-alpha.26.min.js"></script>
+     *
+     * Doing that will create the `FullScreenManager` variable in the global scope
+     * (under `window`). Since it's a singleton, there is no need to instantiate anything.
+     *
+     * Note: if you are using *RequireJS/AMD*, nothing will be declared under the `window`
+     * object. Instead, you should simply require the library as usual:
      *
      *      define(function (require) {
      *          var FullScreenManager = require('FullScreenManager');
      *      });
      *
-     * Full screen mode can only be triggered from within an event listener tied to a user
-     * interaction. In other words, it can only be activated as a result of a mouse or
-     * keyboard event.
+     * #### Usage ####
      *
-     * For example, this code will listen for a click anywhere on the document and toggle
-     * full screen mode for the whole page:
+     * For security reasons, full screen mode can only be triggered from within an event
+     * listener tied to a user interaction. In other words, it can only be activated as a
+     * result of the user triggering a mouse or keyboard event. It is *not possible*
+     * to enable full screen mode automatically (during `onload` for example).
+     *
+     * Here is an example of code that will listen for a click anywhere on the document
+     * and toggle full screen mode for the whole page:
      *
      *     document.documentElement.onclick = function() {
      *         FullScreenManager.toggle();
@@ -45,7 +51,7 @@
      * simply pass the element or its id to the `FullScreenManager.request()` or
      * `FullScreenManager.toggle()` method:
      *
-     *     FullScreenManager.request(document.getElementById("myElement"));
+     *     FullScreenManager.request("myElement");
      *
      * You can also listen for events. For instance, if you wanted to do something after
      * full screen mode was engaged, you could do that:
@@ -56,19 +62,22 @@
      *         console.log("We are now in full screen mode!");
      *     }
      *
-     * #### Caveat ####
+     * Other events such as "deactivation" and "error" also exist. Check the "events"
+     * section for more details.
+     *
+     * #### Limitations ####
      *
      * By design, navigating to another page, changing tabs, reloading the page, or
-     * switching to another application will exit full screen mode.
+     * switching to another application will exit full screen mode. This is a browser
+     * limitation.
      *
      * To enter fullscreen mode from *within* an `iframe`, you need to add some attributes
-     * on the `iframe tag`.
+     * on the `iframe` tag.
      *
      *     <iframe src="x.html" webkitAllowFullScreen mozAllowFullScreen allowFullScreen></iframe>
      *
      * @class FullScreenManager
      * @static
-     *
      * @version @@version
      * @author @@author
      *
@@ -616,8 +625,8 @@
      * @method activate
      * @static
      * @chainable
-     * @param [element] {Element|String}  The id of the element or the actual `Element` to
-     * make fullscreen.
+     * @param [element] {Element|String}  The id of the element or the actual `Element`
+     * object to make fullscreen.
      * @param [options] {Object} An object holding options to pass to `FullScreenManager`
      * @param [options.cssClass=fullscreen] {String} The CSS Class to add to a fullscreen
      * element
