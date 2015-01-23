@@ -5,5 +5,5 @@
 .Trashes
 Thumbs.db
 
-build/node_modules
+build/node_modules/*
 packaged
