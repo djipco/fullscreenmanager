@@ -21,6 +21,15 @@
      *
      * #### Usage ####
      *
+     * By default, an instance of the object will be made available under
+     * `window.FullScreenManager`. However, if you are using RequireJS, nothing will be
+     * declared under the `window` object. Instead, you should simply require the library
+     * as usual:
+     *
+     *      define(function (require) {
+     *          var FullScreenManager = require('FullScreenManager');
+     *      });
+     *
      * Full screen mode can only be triggered from within an event listener tied to a user
      * interaction. In other words, it can only be activated as a result of a mouse or
      * keyboard event.
@@ -73,6 +82,8 @@
      * assigned background-color. We should assign
      * @todo listen for key combos to trigger fullscreen ?
      * @todo make it jquery-compatible
+     * @todo Add option to maintain aspect ratio and to center the fullscreen stuff ?
+     * @todo allow setting the overflow property ?
      *
      *
      * the following rule changes the background color of the element if it's not the root element:
