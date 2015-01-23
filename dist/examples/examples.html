@@ -8,7 +8,7 @@
         <title></title>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 
-        <script src="../../src/FullScreenManager.js"></script>
+        <script src="js/FullScreenManager.min.js"></script>
 
         <style>
             section {
@@ -73,10 +73,7 @@
         <section>
             <h1 id="iframe-trigger" class="pointer"><code>&lt;iframe&gt;</code></h1>
             <iframe id="iframe" width="640" height="360"
-                    src="http://www.awwwards.com/"
-                    webkitAllowFullScreen
-                    mozAllowFullScreen
-                    allowFullScreen></iframe>
+                    src="http://www.awwwards.com/"></iframe>
         </section>
 
 
@@ -96,6 +93,9 @@
             }
             document.getElementById('video').onclick = function() {
                 FullScreenManager.toggle('video');
+            }
+            document.getElementById('canvas').onclick = function() {
+                FullScreenManager.toggle('canvas');
             }
             document.getElementById('iframe-trigger').onclick = function() {
                 FullScreenManager.toggle('iframe');
