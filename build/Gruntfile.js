@@ -2,13 +2,6 @@ module.exports = function (grunt) {
 
     'use strict';
 
-    grunt.loadNpmTasks('grunt-bumpup');
-    grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-contrib-yuidoc");
-    grunt.loadNpmTasks('grunt-replace');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-compress');
-
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -95,6 +88,13 @@ module.exports = function (grunt) {
         }
 
     });
+
+    grunt.loadNpmTasks('grunt-bumpup');
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-yuidoc");
+    grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     grunt.registerTask("default", ['bumpup:prerelease', 'uglify', 'yuidoc', 'replace', 'copy', 'compress']);
 
