@@ -67,12 +67,11 @@
      * @todo Test hosted vs local
      * @todo Make sure that everything works as it should when the user uses F11 and ESC to enter and leave full screen mode
      * @todo Normalize scrollbar behaviour
-     * @todo For unsupported browsers, fall back to a fullscreen window with minimal chrome
+     * @todo For unsupported browsers, fall back to a fullscreen window with minimal chrome ?
      * @todo In Firefox and IE (on Windows only), the browser changes the background-color
      * of an element to black if this element is not the root and does not already have an
      * assigned background-color. We should assign
      * @todo listen for key combos to trigger fullscreen ?
-     * @todo make it a singleton
      * @todo make it jquery-compatible
      *
      *
@@ -134,6 +133,23 @@
      request fails, Firefox will log an error message to the Web Console explaining why
      the request failed. In Chrome and newer versions of Opera however, no such warning
      is generated.
+
+
+     :-webkit-full-screen {}
+     :-moz-full-screen {}
+     :-ms-fullscreen {}
+     :full-screen { } //pre-spec
+     :fullscreen { } // spec
+
+    :-webkit-full-screen video {
+        width: 100%;
+        height: 100%;
+    }
+
+    ::backdrop {}
+    ::-ms-backdrop {}
+
+
 
      **/
 

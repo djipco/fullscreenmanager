@@ -6,6 +6,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-yuidoc");
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     grunt.initConfig({
 
@@ -72,10 +74,28 @@ module.exports = function (grunt) {
                     }
                 ]
             }
+        },
+
+        copy: {
+            main: {
+                src: '../dist/<%= pkg.name %>-<%= pkg.version %>.min.js',
+                dest: '../dist/examples/js/<%= pkg.name %>.min.js',
+            }
+        },
+
+        compress: {
+            main: {
+                options: {
+                    archive: '../packaged/<%= pkg.name %>-<%= pkg.version %>.zip'
+                },
+                files: [
+                    {src: ['**'], cwd: "../dist/", expand: true}
+                ]
+            }
         }
 
     });
 
-    grunt.registerTask("default", ['bumpup:prerelease', 'uglify', 'yuidoc', 'replace']);
+    grunt.registerTask("default", ['bumpup:prerelease', 'uglify', 'yuidoc', 'replace', 'copy', 'compress']);
 
 };

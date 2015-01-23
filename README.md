@@ -62,4 +62,4 @@ To enter fullscreen mode from within an `iframe`, you need to add some attribute
 
 #### Home page & Documentation ####
 
-This library is also available on the [author's site](http://cote.cc/projects/fullscreenmanager/ "FullScreenManager"). The full API documentation can be [viewed online](http://cote.cc/w/wp-content/uploads/projects/fullscreenmanager/doc/classes/FullScreenManager.html "Documentation")
+This library is also available on the [author's site](http://cote.cc/projects/fullscreenmanager/ "FullScreenManager"). The full API documentation can be [viewed online](http://cote.cc/w/wp-content/uploads/projects/fullscreenmanager/doc/classes/FullScreenManager.html "Documentation").
